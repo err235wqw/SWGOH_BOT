@@ -11,4 +11,10 @@ router = Router()
 
 @router.message(CommandStart())
 async def cmd_start(message: Message, state: FSMContext):
-    await message.answer('Бот как бот, что бубнить то', reply_markup=None)
+    await state.set_state(st.menu.start_page)
+    await message.answer('Это бот гильдии Dominance Of The Sith, входящей в состав альянса BT. Выберите ', reply_markup=kb.main)
+
+@router.message(st.menu.start_page, F.text == 'Территориальные битвы')
+async def TB_menu(message: Message, state: FSMContext):
+    await state.set_state(st.menu.TB)
+    await message.answer('Выберите необходимую вам информацию', reply_markup=kb.TB)
